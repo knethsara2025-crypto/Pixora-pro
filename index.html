@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixora Pro by Knethsara - Premium Web Photo Editor</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Google Fonts for premium typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="dark-theme">
+    <!-- Main Application Wrapper -->
+    <div id="app-container">
+        
+        <!-- Header / Menu Bar -->
+        <header id="menu-bar">
+            <div class="logo-area">
+                <div class="logo-icon logo-image-icon">
+                    <img src="logo.jpg" alt="Pixora Pro Logo">
+                </div>
+                <span class="logo-text">Pixora Pro <span class="logo-accent">by Knethsara</span></span>
+            </div>
+            
+            <nav class="nav-menus">
+                <div class="menu-item" id="menu-file">
+                    <button class="menu-btn">File</button>
+                    <div class="dropdown-menu">
+                        <button id="btn-new-doc">New Document...</button>
+                        <hr>
+                        <label for="input-open-image" class="file-label-btn">Open Image...</label>
+                        <input type="file" id="input-open-image" accept="image/*" style="display: none;">
+                        <hr>
+                        <button id="btn-export-png">Export as PNG</button>
+                        <button id="btn-export-jpg">Export as JPEG</button>
+                    </div>
+                </div>
+                <div class="menu-item" id="menu-edit">
+                    <button class="menu-btn">Edit</button>
+                    <div class="dropdown-menu">
+                        <button id="btn-undo" class="shortcut-btn">Undo <span class="shortcut">Ctrl+Z</span></button>
+                        <button id="btn-redo" class="shortcut-btn">Redo <span class="shortcut">Ctrl+Y</span></button>
+                        <hr>
+                        <button id="btn-clear-layer">Clear Active Layer</button>
+                        <button id="btn-delete-active-layer">Delete Active Layer</button>
+                    </div>
+                </div>
+                <div class="menu-item" id="menu-view">
+                    <button class="menu-btn">View</button>
+                    <div class="dropdown-menu">
+                        <button id="btn-zoom-in">Zoom In <span class="shortcut">Ctrl++</span></button>
+                        <button id="btn-zoom-out">Zoom Out <span class="shortcut">Ctrl+-</span></button>
+                        <button id="btn-zoom-fit">Fit Screen</button>
+                        <button id="btn-zoom-reset">Actual Size (100%)</button>
+                    </div>
+                </div>
+                <div class="menu-item" id="menu-help">
+                    <button class="menu-btn">Help</button>
+                    <div class="dropdown-menu">
+                        <button id="btn-shortcuts">Keyboard Shortcuts</button>
+                        <button id="btn-about">About Pixora Pro</button>
+                    </div>
+                </div>
+            </nav>
+            
+            <div class="status-indicator">
+                <span id="doc-dimensions-display">1200 &times; 800 px</span>
+            </div>
+        </header>
+
+        <!-- Main Workspace: Contains Toolbar, Options bar, Canvas, and Sidebars -->
+        <div id="workspace-container">
+            
+            <!-- Sidebar Left: Tool Palette -->
+            <aside id="toolbar">
+                <button class="tool-btn active" id="tool-move" title="Move & Transform (V)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="5 9 2 12 5 15"></polyline>
+                        <polyline points="9 5 12 2 15 5"></polyline>
+                        <polyline points="15 19 12 22 9 19"></polyline>
+                        <polyline points="19 9 22 12 19 15"></polyline>
+                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                        <line x1="12" y1="2" x2="12" y2="22"></line>
+                    </svg>
+                </button>
+                <button class="tool-btn" id="tool-brush" title="Paint Brush (B)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M12 17v4"></path>
+                        <path d="M9 21h6"></path>
+                        <path d="M12 2v2"></path>
+                    </svg>
+                </button>
+                <button class="tool-btn" id="tool-eraser" title="Eraser (E)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M20 20H7L3 16C2 15 2 13 3 12L13 2L22 11L18 15L20 20Z"></path>
+                        <path d="M17 14L8 5"></path>
+                    </svg>
+                </button>
+                <button class="tool-btn" id="tool-shape" title="Shapes (U)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    </svg>
+                </button>
+                <button class="tool-btn" id="tool-text" title="Text Tool (T)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="4 7 4 4 20 4 20 7"></polyline>
+                        <line x1="9" y1="20" x2="15" y2="20"></line>
+                        <line x1="12" y1="4" x2="12" y2="20"></line>
+                    </svg>
+                </button>
+                <button class="tool-btn" id="tool-eyedropper" title="Eyedropper (I)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14.5 2.5L21.5 9.5L16 15L13.5 12.5L7 19L5 20L4 19L5 17L11.5 10.5L9 8L14.5 2.5Z"></path>
+                    </svg>
+                </button>
+                <button class="tool-btn" id="tool-pan" title="Hand / Pan View (Space + Drag)">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M18 11V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v5"></path>
+                        <path d="M14 10V4a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v8"></path>
+                        <path d="M10 10.5V6a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v10.5"></path>
+                        <path d="M6 15V11a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v7c0 4.4 3.6 8 8 8h3c3.9 0 7-3.1 7-7v-3a2 2 0 0 0-2-2v0a2 2 0 0 0-2 2v3"></path>
+                    </svg>
+                </button>
+                
+                <hr class="tool-separator">
+                
+                <!-- Color Controls -->
+                <div class="color-picker-container">
+                    <div class="color-well" id="color-primary" style="background-color: #3b82f6;" title="Primary Color (Click to change)"></div>
+                    <div class="color-well" id="color-secondary" style="background-color: #ffffff;" title="Secondary Color (Click to change)"></div>
+                    <button class="color-swap-btn" id="btn-color-swap" title="Swap Colors (X)">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 3 21 3 21 8"></polyline>
+                            <line x1="4" y1="20" x2="21" y2="3"></line>
+                            <polyline points="8 21 3 21 3 16"></polyline>
+                            <line x1="3" y1="21" x2="20" y2="4"></line>
+                        </svg>
+                    </button>
+                    <input type="color" id="native-color-picker" style="visibility: hidden; position: absolute; width: 0; height: 0;">
+                </div>
+            </aside>
+
+            <!-- Center Viewport & Canvas Area -->
+            <main id="viewport-panel">
+                
+                <!-- Top Options Bar: Changes dynamically depending on selected tool -->
+                <section id="tool-options-bar">
+                    
+                    <!-- Move Tool Options -->
+                    <div class="tool-option-group active" id="options-move">
+                        <span class="option-title">Move Tool</span>
+                        <div class="option-item">
+                            <label>X:</label>
+                            <input type="number" id="opt-move-x" value="0" class="small-num-input">
+                            <span class="unit">px</span>
+                        </div>
+                        <div class="option-item">
+                            <label>Y:</label>
+                            <input type="number" id="opt-move-y" value="0" class="small-num-input">
+                            <span class="unit">px</span>
+                        </div>
+                        <div class="option-item">
+                            <label>W:</label>
+                            <input type="number" id="opt-move-w" class="small-num-input" disabled>
+                            <span class="unit">px</span>
+                        </div>
+                        <div class="option-item">
+                            <label>H:</label>
+                            <input type="number" id="opt-move-h" class="small-num-input" disabled>
+                            <span class="unit">px</span>
+                        </div>
+                        <div class="option-item">
+                            <label>Rot:</label>
+                            <input type="range" id="opt-move-rot" min="-180" max="180" value="0" class="slider">
+                            <span id="opt-move-rot-val">0&deg;</span>
+                        </div>
+                        <div class="option-item">
+                            <button id="btn-reset-transform" class="sub-btn">Reset Transform</button>
+                        </div>
+                    </div>
+
+                    <!-- Brush Tool Options -->
+                    <div class="tool-option-group" id="options-brush">
+                        <span class="option-title">Brush Options</span>
+                        <div class="option-item">
+                            <label>Size:</label>
+                            <input type="range" id="opt-brush-size" min="1" max="100" value="15" class="slider">
+                            <span id="opt-brush-size-val">15px</span>
+                        </div>
+                        <div class="option-item">
+                            <label>Opacity:</label>
+                            <input type="range" id="opt-brush-opacity" min="1" max="100" value="100" class="slider">
+                            <span id="opt-brush-opacity-val">100%</span>
+                        </div>
+                        <div class="option-item">
+                            <label>Hardness:</label>
+                            <input type="range" id="opt-brush-hardness" min="0" max="100" value="80" class="slider">
+                            <span id="opt-brush-hardness-val">80%</span>
+                        </div>
+                    </div>
+
+                    <!-- Eraser Tool Options -->
+                    <div class="tool-option-group" id="options-eraser">
+                        <span class="option-title">Eraser Options</span>
+                        <div class="option-item">
+                            <label>Size:</label>
+                            <input type="range" id="opt-eraser-size" min="1" max="100" value="20" class="slider">
+                            <span id="opt-eraser-size-val">20px</span>
+                        </div>
+                        <div class="option-item">
+                            <label>Opacity:</label>
+                            <input type="range" id="opt-eraser-opacity" min="1" max="100" value="100" class="slider">
+                            <span id="opt-eraser-opacity-val">100%</span>
+                        </div>
+                    </div>
+
+                    <!-- Shape Tool Options -->
+                    <div class="tool-option-group" id="options-shape">
+                        <span class="option-title">Shape Options</span>
+                        <div class="option-item">
+                            <label>Type:</label>
+                            <select id="opt-shape-type">
+                                <option value="rectangle">Rectangle</option>
+                                <option value="ellipse">Ellipse</option>
+                            </select>
+                        </div>
+                        <div class="option-item">
+                            <label>Mode:</label>
+                            <select id="opt-shape-mode">
+                                <option value="fill">Fill Only</option>
+                                <option value="stroke">Stroke Only</option>
+                                <option value="both">Fill & Stroke</option>
+                            </select>
+                        </div>
+                        <div class="option-item">
+                            <label>Stroke W:</label>
+                            <input type="range" id="opt-shape-stroke-width" min="1" max="30" value="3" class="slider">
+                            <span id="opt-shape-stroke-width-val">3px</span>
+                        </div>
+                        <div class="option-item">
+                            <div class="stroke-color-well" id="shape-stroke-color" style="background-color: #000000;" title="Stroke Color"></div>
+                        </div>
+                    </div>
+
+                    <!-- Text Tool Options -->
+                    <div class="tool-option-group" id="options-text">
+                        <span class="option-title">Text Options</span>
+                        <div class="option-item">
+                            <input type="text" id="opt-text-val" placeholder="Type layer text here..." value="Double-click to edit">
+                        </div>
+                        <div class="option-item">
+                            <label>Size:</label>
+                            <input type="number" id="opt-text-size" value="48" class="small-num-input">
+                            <span class="unit">px</span>
+                        </div>
+                        <div class="option-item">
+                            <label>Font:</label>
+                            <select id="opt-text-font">
+                                <option value="Outfit, Inter, sans-serif">Outfit</option>
+                                <option value="Inter, sans-serif">Inter</option>
+                                <option value="Arial, sans-serif">Arial</option>
+                                <option value="Times New Roman, serif">Times New Roman</option>
+                                <option value="Courier New, monospace">Courier New</option>
+                                <option value="Georgia, serif">Georgia</option>
+                                <option value="Impact, sans-serif">Impact</option>
+                            </select>
+                        </div>
+                        <div class="option-item">
+                            <button id="opt-text-bold" class="toggle-btn" title="Bold">B</button>
+                            <button id="opt-text-italic" class="toggle-btn" title="Italic">I</button>
+                        </div>
+                    </div>
+
+                    <!-- Eyedropper Options -->
+                    <div class="tool-option-group" id="options-eyedropper">
+                        <span class="option-title">Eyedropper</span>
+                        <div class="option-item">
+                            <span>Sample size: Point Sample</span>
+                        </div>
+                        <div class="option-item">
+                            <span>Currently selected: </span>
+                            <div id="eyedropper-preview" class="color-well-static" style="background-color: #3b82f6;"></div>
+                            <span id="eyedropper-preview-hex">#3b82f6</span>
+                        </div>
+                    </div>
+
+                    <!-- Pan Options -->
+                    <div class="tool-option-group" id="options-pan">
+                        <span class="option-title">Navigator Options</span>
+                        <div class="option-item">
+                            <button id="btn-opt-fit" class="sub-btn">Fit Viewport</button>
+                            <button id="btn-opt-reset" class="sub-btn">100% Zoom</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Canvas Viewport Frame -->
+                <div id="canvas-viewport">
+                    <div id="canvas-container">
+                        <!-- Chessboard pattern handles transparency in CSS -->
+                        <div class="checkerboard-bg"></div>
+                        
+                        <!-- Viewport rendering layers -->
+                        <canvas id="viewport-canvas"></canvas>
+                        
+                        <!-- Overlay canvas for bounding boxes, drawing shapes guides, etc. -->
+                        <canvas id="overlay-canvas"></canvas>
+                    </div>
+                </div>
+            </main>
+
+            <!-- Right Sidebar: Panes for Navigator, Adjustments, Layers, History -->
+            <aside id="sidebars-container">
+                
+                <!-- Section 1: Navigator & Workspace Controls -->
+                <section class="sidebar-panel" id="panel-navigator">
+                    <div class="panel-header">
+                        <h3>Navigator</h3>
+                        <button class="panel-toggle-btn">&#9699;</button>
+                    </div>
+                    <div class="panel-body">
+                        <div class="zoom-controls-row">
+                            <button id="btn-zoom-out-ctrl" class="mini-btn">&minus;</button>
+                            <input type="range" id="zoom-slider" min="10" max="600" value="100" class="slider">
+                            <button id="btn-zoom-in-ctrl" class="mini-btn">&plus;</button>
+                            <span id="zoom-percentage-text">100%</span>
+                        </div>
+                        <div class="preset-zooms">
+                            <button class="small-tag-btn" id="btn-zoom-fit-tag">Fit</button>
+                            <button class="small-tag-btn" id="btn-zoom-100-tag">100%</button>
+                            <button class="small-tag-btn" id="btn-zoom-200-tag">200%</button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: Non-destructive Adjustments -->
+                <section class="sidebar-panel" id="panel-adjustments">
+                    <div class="panel-header">
+                        <h3>Adjustments</h3>
+                        <button id="btn-reset-adjustments" class="panel-header-action">Reset</button>
+                    </div>
+                    <div class="panel-body sliders-grid">
+                        <div class="adjustment-slider">
+                            <div class="slider-info">
+                                <label for="adj-brightness">Brightness</label>
+                                <span id="val-brightness">100%</span>
+                            </div>
+                            <input type="range" id="adj-brightness" min="0" max="200" value="100" class="slider">
+                        </div>
+                        <div class="adjustment-slider">
+                            <div class="slider-info">
+                                <label for="adj-contrast">Contrast</label>
+                                <span id="val-contrast">100%</span>
+                            </div>
+                            <input type="range" id="adj-contrast" min="0" max="200" value="100" class="slider">
+                        </div>
+                        <div class="adjustment-slider">
+                            <div class="slider-info">
+                                <label for="adj-saturation">Saturation</label>
+                                <span id="val-saturation">100%</span>
+                            </div>
+                            <input type="range" id="adj-saturation" min="0" max="200" value="100" class="slider">
+                        </div>
+                        <div class="adjustment-slider">
+                            <div class="slider-info">
+                                <label for="adj-hue">Hue-Rotate</label>
+                                <span id="val-hue">0&deg;</span>
+                            </div>
+                            <input type="range" id="adj-hue" min="0" max="360" value="0" class="slider">
+                        </div>
+                        <div class="adjustment-slider">
+                            <div class="slider-info">
+                                <label for="adj-blur">Blur</label>
+                                <span id="val-blur">0px</span>
+                            </div>
+                            <input type="range" id="adj-blur" min="0" max="20" value="0" class="slider">
+                        </div>
+                        <div class="adjustment-slider">
+                            <div class="slider-info">
+                                <label for="adj-grayscale">Grayscale</label>
+                                <span id="val-grayscale">0%</span>
+                            </div>
+                            <input type="range" id="adj-grayscale" min="0" max="100" value="0" class="slider">
+                        </div>
+                        <div class="adjustment-slider">
+                            <div class="slider-info">
+                                <label for="adj-sepia">Sepia</label>
+                                <span id="val-sepia">0%</span>
+                            </div>
+                            <input type="range" id="adj-sepia" min="0" max="100" value="0" class="slider">
+                        </div>
+                        <div class="adjustment-slider">
+                            <div class="slider-info">
+                                <label for="adj-invert">Invert</label>
+                                <span id="val-invert">0%</span>
+                            </div>
+                            <input type="range" id="adj-invert" min="0" max="100" value="0" class="slider">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 3: Layers Manager -->
+                <section class="sidebar-panel" id="panel-layers">
+                    <div class="panel-header">
+                        <h3>Layers</h3>
+                        <div class="layers-top-controls">
+                            <select id="layer-blend-mode" title="Layer Blend Mode">
+                                <option value="source-over">Normal</option>
+                                <option value="multiply">Multiply</option>
+                                <option value="screen">Screen</option>
+                                <option value="overlay">Overlay</option>
+                                <option value="darken">Darken</option>
+                                <option value="lighten">Lighten</option>
+                                <option value="color-dodge">Color Dodge</option>
+                                <option value="color-burn">Color Burn</option>
+                                <option value="difference">Difference</option>
+                                <option value="exclusion">Exclusion</option>
+                                <option value="hue">Hue</option>
+                                <option value="saturation">Saturation</option>
+                                <option value="color">Color</option>
+                                <option value="luminosity">Luminosity</option>
+                            </select>
+                            <div class="opacity-control">
+                                <label for="layer-opacity-input">Op:</label>
+                                <input type="range" id="layer-opacity-input" min="0" max="100" value="100" class="slider header-slider">
+                                <span id="layer-opacity-val">100%</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="panel-body layers-list-container">
+                        <!-- JavaScript will populate items here -->
+                        <ul id="layers-list"></ul>
+                    </div>
+                    
+                    <div class="panel-footer layers-footer">
+                        <button id="btn-add-layer" title="Create New Paint Layer">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                            </svg>
+                        </button>
+                        <label for="btn-add-image-layer" title="Import Image Layer" class="icon-label-btn">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                                <polyline points="21 15 16 10 5 21"></polyline>
+                            </svg>
+                        </label>
+                        <input type="file" id="btn-add-image-layer" accept="image/*" style="display: none;">
+                        
+                        <button id="btn-duplicate-layer" title="Duplicate Selected Layer">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                        </button>
+                        <div class="stack-arrows">
+                            <button id="btn-layer-up" title="Move Layer Up">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="18 15 12 9 6 15"></polyline>
+                                </svg>
+                            </button>
+                            <button id="btn-layer-down" title="Move Layer Down">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </button>
+                        </div>
+                        <button id="btn-delete-layer" class="delete-btn" title="Delete Selected Layer">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                <line x1="10" y1="11" x2="10" y2="17"></line>
+                                <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- Section 4: History log -->
+                <section class="sidebar-panel" id="panel-history">
+                    <div class="panel-header">
+                        <h3>History</h3>
+                        <button id="btn-clear-history" class="panel-header-action" title="Clear history stack">Reset</button>
+                    </div>
+                    <div class="panel-body history-list-container">
+                        <ul id="history-list">
+                            <!-- Populated dynamically -->
+                        </ul>
+                    </div>
+                </section>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    
+    <!-- Modal: New Document Settings -->
+    <div id="new-doc-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>New Document</h2>
+                <button class="modal-close-btn" id="btn-close-new-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-form-group">
+                    <label for="new-doc-presets">Preset Templates</label>
+                    <select id="new-doc-presets">
+                        <option value="1200x800">Landscape Default (1200 &times; 800)</option>
+                        <option value="1920x1080">Full HD (1920 &times; 1080)</option>
+                        <option value="1080x1080">Instagram Square (1080 &times; 1080)</option>
+                        <option value="1080x1350">Instagram Portrait (1080 &times; 1350)</option>
+                        <option value="800x600">Standard Landscape (800 &times; 600)</option>
+                        <option value="3840x2160">4K Ultra HD (3840 &times; 2160)</option>
+                        <option value="custom">Custom Dimensions</option>
+                    </select>
+                </div>
+                <div class="modal-dims-row">
+                    <div class="modal-form-group">
+                        <label for="new-doc-width">Width (px)</label>
+                        <input type="number" id="new-doc-width" value="1200" min="100" max="8000">
+                    </div>
+                    <div class="modal-form-group">
+                        <label for="new-doc-height">Height (px)</label>
+                        <input type="number" id="new-doc-height" value="800" min="100" max="8000">
+                    </div>
+                </div>
+                <div class="modal-form-group">
+                    <label for="new-doc-bg">Canvas Background</label>
+                    <select id="new-doc-bg">
+                        <option value="transparent">Transparent (Checkerboard)</option>
+                        <option value="white">Solid White</option>
+                        <option value="black">Solid Black</option>
+                        <option value="#1e293b">Dark Blue-Grey</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="sub-btn" id="btn-cancel-new-doc">Cancel</button>
+                <button class="primary-btn" id="btn-create-doc">Create Document</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Keyboard Shortcuts -->
+    <div id="shortcuts-modal" class="modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h2>Keyboard Shortcuts</h2>
+                <button class="modal-close-btn" id="btn-close-shortcuts-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <table class="shortcuts-table">
+                    <thead>
+                        <tr>
+                            <th>Action</th>
+                            <th>Shortcut</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Move &amp; Transform Tool</td><td><kbd>V</kbd></td></tr>
+                        <tr><td>Paint Brush Tool</td><td><kbd>B</kbd></td></tr>
+                        <tr><td>Eraser Tool</td><td><kbd>E</kbd></td></tr>
+                        <tr><td>Shape Tool</td><td><kbd>U</kbd></td></tr>
+                        <tr><td>Text Tool</td><td><kbd>T</kbd></td></tr>
+                        <tr><td>Eyedropper Tool</td><td><kbd>I</kbd></td></tr>
+                        <tr><td>Hand / Pan Tool</td><td><kbd>H</kbd> or Hold <kbd>Space</kbd></td></tr>
+                        <tr><td>Undo Action</td><td><kbd>Ctrl + Z</kbd></td></tr>
+                        <tr><td>Redo Action</td><td><kbd>Ctrl + Y</kbd></td></tr>
+                        <tr><td>Zoom In / Out</td><td><kbd>Ctrl + +</kbd> / <kbd>Ctrl + -</kbd> (or Mouse Wheel)</td></tr>
+                        <tr><td>Duplicate Active Layer</td><td><kbd>Ctrl + D</kbd></td></tr>
+                        <tr><td>Delete Active Layer</td><td><kbd>Backspace</kbd> / <kbd>Delete</kbd></td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button class="primary-btn" id="btn-close-shortcuts-ok">Got it</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script loading -->
+    <script src="app.js"></script>
+</body>
+</html>
